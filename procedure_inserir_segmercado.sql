@@ -1,6 +1,6 @@
-CREATE PROCEDURE incluir_segmercado
-    (p_id IN NUMBER,
-     p_descricao IN VARCHAR2)
+CREATE OR REPLACE PROCEDURE incluir_segmercado
+    (p_id IN segmercado.id%type,
+     p_descricao IN segmercado.descricao%type)
 IS
 BEGIN
     INSERT INTO segmercado VALUES (p_id, UPPER(p_descricao));
