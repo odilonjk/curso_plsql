@@ -1,0 +1,7 @@
+--SET SERVEROUTPUT ON;
+
+DECLARE
+    v_id number(5) := 101;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_id);
+END;
