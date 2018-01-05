@@ -7,21 +7,13 @@ CREATE OR REPLACE PROCEDURE incluir_cliente
 IS
     v_categoria cliente.categoria%type;
 BEGIN
-    IF p_faturamento_previsto < 10000 THEN
-        v_categoria := 'PEQUENO';
-    ELSIF p_faturamento_previsto < 50000 THEN
-        v_categoria := 'MÉDIO';
-    ELSIF p_faturamento_previsto < 100000 THEN
-        v_categoria := 'MÉDIO GRANDE';
-    ELSE
-        v_categoria := 'GRANDE';
-    END IF;
+    v_categoria := categoria_cliente(p_faturamento_previsto);
     INSERT INTO cliente
         VALUES (p_id, UPPER(p_razao_social), p_cnpj, p_segmercado_id, 
                 SYSDATE, p_faturamento_previsto, v_categoria);
     COMMIT;
 END;
 
-EXECUTE INCLUIR_CLIENTE(1, 'KROGERCODE CO.', '0123456789', 1, 20000);
+EXECUTE INCLUIR_CLIENTE(2, 'DELL', '9876543210', 2, 1100000);
 
 SELECT * FROM CLIENTE;
