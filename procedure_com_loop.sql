@@ -2,11 +2,22 @@ CREATE OR REPLACE PROCEDURE atualizar_cliente_segmercado
     (p_id cliente.id%type,
      p_segmercado_id cliente.segmercado_id%type)
 IS
+    e_cliente_id_inexistente exception;
 BEGIN
     UPDATE cliente
         SET segmercado_id = p_segmercado_id
         WHERE id = p_id;
+    
+    -- Retorna TRUE se comando anterior não fez nada.
+    IF SQL%NOTFOUND THEN
+        --RAISE é o comando que força o erro de execução.
+        RAISE e_cliente_id_inexistente;
+    END IF;
     COMMIT;
+    
+    EXCEPTION
+        WHEN e_cliente_id_inexistente THEN
+            raise_application_error(-20100, 'ID de cliente inexistente.');
 END;
 
 --  Executando a procedure em um loop
@@ -33,3 +44,5 @@ END;
 
 SELECT * FROM CLIENTE;
 
+--Testando a exception.
+EXECUTE ATUALIZAR_CLIENTE_SEGMERCADO(99, 2);
